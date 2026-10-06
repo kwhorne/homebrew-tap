@@ -2,19 +2,24 @@
 class Xpress < Formula
   desc "Make images, video, PDFs and audio smaller"
   homepage "https://github.com/kwhorne/xpress"
-  version "0.8.2"
   license "MIT"
 
   on_macos do
     depends_on arch: :arm64
-    url "https://github.com/kwhorne/xpress/releases/download/v0.8.2/xpress-v0.8.2-aarch64-apple-darwin.tar.gz"
-    sha256 "b4bb3c8402db4a6747a51a01d640a8c77bbd3c45f630723f04e01b3032655225"
+
+    on_arm do
+      url "https://github.com/kwhorne/xpress/releases/download/v0.8.2/xpress-v0.8.2-aarch64-apple-darwin.tar.gz"
+      sha256 "b4bb3c8402db4a6747a51a01d640a8c77bbd3c45f630723f04e01b3032655225"
+    end
   end
 
   on_linux do
     depends_on arch: :x86_64
-    url "https://github.com/kwhorne/xpress/releases/download/v0.8.2/xpress-v0.8.2-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "be29ff15c34c3d8b6e4054dc5ccf71d354877c95d2c6b876205bbf71eac8da99"
+
+    on_intel do
+      url "https://github.com/kwhorne/xpress/releases/download/v0.8.2/xpress-v0.8.2-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "be29ff15c34c3d8b6e4054dc5ccf71d354877c95d2c6b876205bbf71eac8da99"
+    end
   end
 
   def install

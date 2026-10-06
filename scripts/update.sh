@@ -32,19 +32,24 @@ cat > Formula/xpress.rb <<EOF
 class Xpress < Formula
   desc "Make images, video, PDFs and audio smaller"
   homepage "https://github.com/$REPO"
-  version "$VERSION"
   license "MIT"
 
   on_macos do
     depends_on arch: :arm64
-    url "$BASE/download/$TAG/xpress-$TAG-aarch64-apple-darwin.tar.gz"
-    sha256 "$MAC"
+
+    on_arm do
+      url "$BASE/download/$TAG/xpress-$TAG-aarch64-apple-darwin.tar.gz"
+      sha256 "$MAC"
+    end
   end
 
   on_linux do
     depends_on arch: :x86_64
-    url "$BASE/download/$TAG/xpress-$TAG-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "$LINUX"
+
+    on_intel do
+      url "$BASE/download/$TAG/xpress-$TAG-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "$LINUX"
+    end
   end
 
   def install
@@ -87,7 +92,7 @@ cask "xpress" do
   # The app updates itself (Update & Restart).
   auto_updates true
   depends_on arch: :arm64
-  depends_on macos: ">= :big_sur"
+  depends_on macos: :big_sur
 
   app "xpress.app"
 
