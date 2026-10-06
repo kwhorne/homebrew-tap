@@ -8,8 +8,8 @@ class Xpress < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/kwhorne/xpress/releases/download/v0.9.0/xpress-v0.9.0-aarch64-apple-darwin.tar.gz"
-      sha256 "394266f98d9a2bed6ccb65bbdf6a5daec2c18490f12671dc82d65da7e798e223"
+      url "https://github.com/kwhorne/xpress/releases/download/v0.9.1/xpress-v0.9.1-aarch64-apple-darwin.tar.gz"
+      sha256 "292447a785c2a6e5af56f066de28c00649c1017c3c71a9cd556a2c2c2b532fbc"
     end
   end
 
@@ -17,8 +17,8 @@ class Xpress < Formula
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/kwhorne/xpress/releases/download/v0.9.0/xpress-v0.9.0-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "beab8b6677dcf5574d62246c6030f0081fea786b680d8d31baaa86721fec2f76"
+      url "https://github.com/kwhorne/xpress/releases/download/v0.9.1/xpress-v0.9.1-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "635da7ef45d0ba04da604bfab29697e6d616fa98ac23c7bb74da5c27786fefa2"
     end
   end
 
