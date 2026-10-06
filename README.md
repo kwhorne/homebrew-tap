@@ -4,8 +4,8 @@ Homebrew formulae for [xpress](https://github.com/kwhorne/xpress) — make
 images, video, PDFs and audio smaller.
 
 ```sh
-brew install kwhorne/tap/xpress           # the command line (macOS Apple silicon, Linux x86_64)
-brew install --cask kwhorne/tap/xpress    # the menu-bar app (macOS Apple silicon)
+brew install kwhorne/tap/xpress           # the command line (macOS, Linux x86_64)
+brew install --cask kwhorne/tap/xpress    # the menu-bar app (macOS, Apple silicon and Intel)
 ```
 
 Video and audio need ffmpeg: `brew install ffmpeg` (the app bundles its own).
