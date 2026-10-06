@@ -2,9 +2,9 @@
 cask "xpress" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "0.9.3"
-  sha256 arm:   "bae54d042e8114b7ebe7e01627a8d3401ff64da07a417a7b1d2119cbb2ad0125",
-         intel: "f1e7114e08e78aa9f894f20cf3a8b7a3742628b88bd184a47eb1d1c80096ca21"
+  version "0.9.4"
+  sha256 arm:   "901b344226ed3a3dc703c2a2d245a61043707eb924859e146f03e0581aad4268",
+         intel: "80665b30881d0fce50528b4d84314c02f7e82764bab792cc1210c6a191eeafbf"
 
   url "https://github.com/kwhorne/xpress/releases/download/v#{version}/xpress-v#{version}-macos-#{arch}-apple-darwin.dmg"
   name "xpress"
