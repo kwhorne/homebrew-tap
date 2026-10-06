@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  formula:
+    name: formula (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # After an automatic update, test what was just pushed.
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+      - uses: Homebrew/actions/setup-homebrew@master
+      - name: Tap this checkout
+        run: |
+          brew untap kwhorne/tap 2>/dev/null || true
+          brew tap kwhorne/tap "$GITHUB_WORKSPACE"
+      - run: brew install kwhorne/tap/xpress
+      - run: brew test kwhorne/tap/xpress
+      - name: Use it
+        run: |
+          xpress --version
+          xpress doctor
+          test -f "$(brew --prefix)/share/zsh/site-functions/_xpress"
+          test -f "$(brew --prefix)/share/man/man1/xpress.1"
+      - run: brew audit --formula kwhorne/tap/xpress
+      - run: brew uninstall kwhorne/tap/xpress
+
+  cask:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+      - uses: Homebrew/actions/setup-homebrew@master
+      - name: Tap this checkout
+        run: |
+          brew untap kwhorne/tap 2>/dev/null || true
+          brew tap kwhorne/tap "$GITHUB_WORKSPACE"
+      - run: brew install --cask kwhorne/tap/xpress
+      - name: The app is installed, signed and notarised
+        run: |
+          test -d /Applications/xpress.app
+          codesign --verify --deep --strict /Applications/xpress.app
+          spctl -a -vvv /Applications/xpress.app
+      - run: brew audit --cask kwhorne/tap/xpress
+      - run: brew uninstall --cask kwhorne/tap/xpress

@@ -1,0 +1,44 @@
+name: Update
+
+# Follows xpress releases: every six hours, or run it by hand (Actions →
+# Update → Run workflow) right after a release.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v0.8.3 (default: the latest)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/update.sh "${{ inputs.tag }}"
+      - id: commit
+        name: Commit a new version
+        run: |
+          if git diff --quiet; then
+            echo "Already up to date."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          version="$(sed -n 's/^  version "\(.*\)"/\1/p' Formula/xpress.rb)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "xpress $version"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  # Pushes made with the workflow token don't start other workflows.
+  test:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    uses: ./.github/workflows/test.yml
