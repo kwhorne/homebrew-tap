@@ -20,7 +20,7 @@ jobs:
         with:
           # After an automatic update, test what was just pushed.
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
-      - uses: Homebrew/actions/setup-homebrew@master
+      - uses: Homebrew/actions/setup-homebrew@main
       - name: Tap this checkout
         run: |
           brew untap kwhorne/tap 2>/dev/null || true
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
-      - uses: Homebrew/actions/setup-homebrew@master
+      - uses: Homebrew/actions/setup-homebrew@main
       - name: Tap this checkout
         run: |
           brew untap kwhorne/tap 2>/dev/null || true
