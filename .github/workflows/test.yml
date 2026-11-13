@@ -54,3 +54,22 @@ jobs:
           spctl -a -vvv /Applications/xpress.app
       - run: brew audit --cask kwhorne/tap/xpress
       - run: brew uninstall --cask kwhorne/tap/xpress
+
+  etrans:
+    name: etrans cask (Apple silicon)
+    # etrans is built for Apple silicon only.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+      # Taps this checkout as kwhorne/tap (it's a homebrew-* repo).
+      - uses: Homebrew/actions/setup-homebrew@main
+      - run: brew install --cask kwhorne/tap/etrans
+      - name: The app is installed, signed and notarised
+        run: |
+          test -d /Applications/etrans.app
+          codesign --verify --deep --strict /Applications/etrans.app
+          spctl -a -vvv /Applications/etrans.app
+      - run: brew audit --cask kwhorne/tap/etrans
+      - run: brew uninstall --cask kwhorne/tap/etrans
