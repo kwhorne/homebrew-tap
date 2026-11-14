@@ -5,22 +5,19 @@ class Xpress < Formula
   license "MIT"
 
   on_macos do
-    on_arm do
-      url "https://github.com/kwhorne/xpress/releases/download/v1.0.0/xpress-v1.0.0-aarch64-apple-darwin.tar.gz"
-      sha256 "82292ac441252b4dc5071b999138875499419352c557a67e13e1401c53f8096b"
-    end
-    on_intel do
-      url "https://github.com/kwhorne/xpress/releases/download/v1.0.0/xpress-v1.0.0-x86_64-apple-darwin.tar.gz"
-      sha256 "c7fab063e5c29be8e9bfee8374241a56f92d5c9d03a10551f6bac4aec10895ce"
-    end
+    # Apple silicon only (Intel Macs: xpress 1.0.1 or build from source).
+    depends_on arch: :arm64
+
+    url "https://github.com/kwhorne/xpress/releases/download/v0.9.2/xpress-v0.9.2-aarch64-apple-darwin.tar.gz"
+    sha256 "23a6b75868b79999c0202fb644fc6768843aeefe20adb1c7d036422e1531775a"
   end
 
   on_linux do
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/kwhorne/xpress/releases/download/v1.0.0/xpress-v1.0.0-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "babf5bc29538e943050129a7e7a3d16280d0d94a1940db7c01469e5eb6bebefa"
+      url "https://github.com/kwhorne/xpress/releases/download/v0.9.2/xpress-v0.9.2-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "68af54a62822ddaf3df43b3bf6a759fda2dd67ffd8facbd810c75a2509d0938f"
     end
   end
 

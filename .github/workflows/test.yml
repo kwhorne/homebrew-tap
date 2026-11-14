@@ -22,9 +22,31 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
       # Taps this checkout as kwhorne/tap (it's a homebrew-* repo).
       - uses: Homebrew/actions/setup-homebrew@main
+      # Releases after 1.0.1 have no Intel Mac build: there, check that
+      # Homebrew refuses it with a clear message instead of installing.
+      - id: arch
+        name: Built for this machine?
+        run: |
+          if [[ "$RUNNER_OS" == macOS && "$RUNNER_ARCH" == X64 ]] && ! grep -q 'intel:' Casks/xpress.rb; then
+            echo "supported=false" >> "$GITHUB_OUTPUT"
+            echo "No Intel Mac build in this release."
+          else
+            echo "supported=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Refused on Intel Macs
+        if: steps.arch.outputs.supported == 'false'
+        run: |
+          set -o pipefail
+          if brew install kwhorne/tap/xpress 2>&1 | tee install.log; then
+            echo "::error::installed on an Intel Mac" && exit 1
+          fi
+          grep -qi 'arm64\|architecture' install.log
       - run: brew install kwhorne/tap/xpress
+        if: steps.arch.outputs.supported == 'true'
       - run: brew test kwhorne/tap/xpress
+        if: steps.arch.outputs.supported == 'true'
       - name: Use it
+        if: steps.arch.outputs.supported == 'true'
         run: |
           xpress --version
           xpress doctor
@@ -32,6 +54,7 @@ jobs:
           test -f "$(brew --prefix)/share/man/man1/xpress.1"
       - run: brew audit --formula kwhorne/tap/xpress
       - run: brew uninstall kwhorne/tap/xpress
+        if: steps.arch.outputs.supported == 'true'
 
   cask:
     name: cask (${{ matrix.os }})
@@ -46,14 +69,34 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
       # Taps this checkout as kwhorne/tap (it's a homebrew-* repo).
       - uses: Homebrew/actions/setup-homebrew@main
+      - id: arch
+        name: Built for this machine?
+        run: |
+          if [[ "$RUNNER_ARCH" == X64 ]] && ! grep -q 'intel:' Casks/xpress.rb; then
+            echo "supported=false" >> "$GITHUB_OUTPUT"
+            echo "No Intel Mac build in this release."
+          else
+            echo "supported=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Refused on Intel Macs
+        if: steps.arch.outputs.supported == 'false'
+        run: |
+          set -o pipefail
+          if brew install --cask kwhorne/tap/xpress 2>&1 | tee install.log; then
+            echo "::error::installed on an Intel Mac" && exit 1
+          fi
+          grep -qi 'arm64\|architecture' install.log
       - run: brew install --cask kwhorne/tap/xpress
+        if: steps.arch.outputs.supported == 'true'
       - name: The app is installed, signed and notarised
+        if: steps.arch.outputs.supported == 'true'
         run: |
           test -d /Applications/xpress.app
           codesign --verify --deep --strict /Applications/xpress.app
           spctl -a -vvv /Applications/xpress.app
       - run: brew audit --cask kwhorne/tap/xpress
       - run: brew uninstall --cask kwhorne/tap/xpress
+        if: steps.arch.outputs.supported == 'true'
 
   etrans:
     name: etrans cask (Apple silicon)
