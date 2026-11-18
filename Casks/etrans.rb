@@ -1,8 +1,8 @@
 # Written by scripts/release.sh in the etrans repository with each release
 # (build/etrans.rb), and copied here.
 cask "etrans" do
-  version "0.8.1"
-  sha256 "5b3bd52fcfde7bbd14a4cfe451116879fc56b976fc2c2b8c67a4b36a65fed76a"
+  version "0.8.2"
+  sha256 "72378d8259e042f7f14c1bbc421e39cd9b0ab9867fc698adc92ea806fec3d4fd"
 
   url "https://elyracode.com/downloads/etrans/etrans-#{version}-arm64.dmg"
   name "etrans"
