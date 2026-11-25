@@ -20,7 +20,7 @@ jobs:
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: scripts/update.sh "${{ inputs.tag }}"
       - id: commit
         name: Commit a new version

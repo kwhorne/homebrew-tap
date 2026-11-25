@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [macos-latest, macos-15-intel, ubuntu-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # After an automatic update, test what was just pushed.
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
@@ -64,7 +64,7 @@ jobs:
       matrix:
         os: [macos-latest, macos-15-intel]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
       # Taps this checkout as kwhorne/tap (it's a homebrew-* repo).
@@ -103,7 +103,7 @@ jobs:
     # etrans is built for Apple silicon only.
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
       # Taps this checkout as kwhorne/tap (it's a homebrew-* repo).
