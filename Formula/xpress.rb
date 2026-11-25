@@ -8,16 +8,16 @@ class Xpress < Formula
     # Apple silicon only (Intel Macs: xpress 1.0.1 or build from source).
     depends_on arch: :arm64
 
-    url "https://github.com/kwhorne/xpress/releases/download/v1.1.1/xpress-v1.1.1-aarch64-apple-darwin.tar.gz"
-    sha256 "deffc04e7d5c2875f1694cd2dc51454275a471476773cc0737aed9b034e1a827"
+    url "https://github.com/kwhorne/xpress/releases/download/v1.1.2/xpress-v1.1.2-aarch64-apple-darwin.tar.gz"
+    sha256 "d78e2b0d6da79b7d1f8fc06aac18c0fd41a05b972b3b1eacf8dfeeb1ca91b9c0"
   end
 
   on_linux do
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/kwhorne/xpress/releases/download/v1.1.1/xpress-v1.1.1-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "1ed817ba848158aae092a7b803986db3b97e30aca5255034f245b0c11897e695"
+      url "https://github.com/kwhorne/xpress/releases/download/v1.1.2/xpress-v1.1.2-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "64d9dee00ba3d48922c2e8dc517a62ce86cffa317510fe738f0b379b716c3369"
     end
   end
 
